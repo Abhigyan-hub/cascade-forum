@@ -70,11 +70,11 @@ function CreateEventPage() {
       <Layout>
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Create Event</h1>
+            <h1 className="text-3xl font-bold text-text-primary mb-6">Create Event</h1>
 
-            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-6">
+            <form onSubmit={handleSubmit} className="card p-6 space-y-6">
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                <div className="bg-accent-error/20 border border-accent-error/30 text-accent-error px-4 py-3 rounded">
                   {error}
                 </div>
               )}

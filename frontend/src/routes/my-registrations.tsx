@@ -35,21 +35,25 @@ function MyRegistrationsPage() {
     <ProtectedRoute>
       <Layout>
         <div className="px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">My Registrations</h1>
+          <h1 className="text-3xl font-bold text-text-primary mb-6">My Registrations</h1>
           
           {isLoading ? (
-            <div className="text-center py-12">Loading...</div>
+            <div className="text-center py-12 text-text-muted">Loading...</div>
           ) : registrations && registrations.length > 0 ? (
             <div className="space-y-4">
               {registrations.map((registration) => (
-                <div key={registration.id} className="bg-white rounded-lg shadow-md p-6">
+                <div key={registration.id} className="card p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                      <h2 className="text-xl font-semibold text-text-primary mb-2">
                         {registration.event_title}
                       </h2>
-                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4">
-                        <span className="flex items-center space-x-1">
+                      <div className="flex items-center space-x-4 text-sm text-text-muted mb-4">
+                        <span className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-semibold ${
+                          registration.status === 'accepted' ? 'status-accepted' :
+                          registration.status === 'rejected' ? 'status-rejected' :
+                          'status-pending'
+                        }`}>
                           {getStatusIcon(registration.status)}
                           <span className="capitalize">{registration.status}</span>
                         </span>
@@ -59,14 +63,14 @@ function MyRegistrationsPage() {
                       {registration.payment_status === 'pending' && (
                         <a
                           href={`/payments/${registration.id}`}
-                          className="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                          className="inline-block mt-2 px-4 py-2 btn-accent"
                         >
                           Complete Payment
                         </a>
                       )}
                       
                       {registration.payment_status === 'completed' && (
-                        <span className="inline-block mt-2 px-4 py-2 bg-green-100 text-green-800 rounded-md">
+                        <span className="inline-block mt-2 px-4 py-2 status-accepted rounded-md">
                           Payment Completed
                         </span>
                       )}
@@ -76,7 +80,7 @@ function MyRegistrationsPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 text-gray-500">No registrations yet</div>
+            <div className="text-center py-12 text-text-muted">No registrations yet</div>
           )}
         </div>
       </Layout>

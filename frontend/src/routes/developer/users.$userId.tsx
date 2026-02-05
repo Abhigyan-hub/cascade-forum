@@ -52,73 +52,73 @@ function UserDetailsPage() {
     <ProtectedRoute requiredRole="developer">
       <Layout>
         <div className="px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">User Details</h1>
+          <h1 className="text-3xl font-bold text-text-primary mb-6">User Details</h1>
 
-          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 className="text-xl font-semibold mb-4">{user.full_name}</h2>
+          <div className="card p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4 text-text-primary">{user.full_name}</h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <span className="text-sm text-gray-600">Email:</span>
-                <p className="font-medium">{user.email}</p>
+                <span className="text-sm text-text-muted">Email:</span>
+                <p className="font-medium text-text-primary">{user.email}</p>
               </div>
               <div>
-                <span className="text-sm text-gray-600">Role:</span>
-                <p className="font-medium capitalize">{user.role}</p>
+                <span className="text-sm text-text-muted">Role:</span>
+                <p className="font-medium capitalize text-text-primary">{user.role}</p>
               </div>
               <div>
-                <span className="text-sm text-gray-600">Status:</span>
-                <p className="font-medium">{user.is_active ? 'Active' : 'Inactive'}</p>
+                <span className="text-sm text-text-muted">Status:</span>
+                <p className="font-medium text-text-primary">{user.is_active ? 'Active' : 'Inactive'}</p>
               </div>
               <div>
-                <span className="text-sm text-gray-600">Created:</span>
-                <p className="font-medium">{format(new Date(user.created_at), 'MMM dd, yyyy')}</p>
+                <span className="text-sm text-text-muted">Created:</span>
+                <p className="font-medium text-text-primary">{format(new Date(user.created_at), 'MMM dd, yyyy')}</p>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h2 className="text-xl font-semibold mb-4">Registrations ({registrations?.length || 0})</h2>
-              <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-semibold mb-4 text-text-primary">Registrations ({registrations?.length || 0})</h2>
+              <div className="card p-6">
                 {registrations && registrations.length > 0 ? (
                   <div className="space-y-4">
                     {registrations.map((reg) => (
-                      <div key={reg.id} className="border-b pb-4 last:border-0">
-                        <p className="font-medium">{reg.event_title}</p>
-                        <p className="text-sm text-gray-600">
+                      <div key={reg.id} className="border-b border-border pb-4 last:border-0">
+                        <p className="font-medium text-text-primary">{reg.event_title}</p>
+                        <p className="text-sm text-text-muted">
                           Status: <span className="capitalize">{reg.status}</span>
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-text-muted">
                           {format(new Date(reg.created_at), 'MMM dd, yyyy')}
                         </p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500">No registrations</p>
+                  <p className="text-text-muted">No registrations</p>
                 )}
               </div>
             </div>
 
             <div>
-              <h2 className="text-xl font-semibold mb-4">Payments ({payments?.length || 0})</h2>
-              <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-semibold mb-4 text-text-primary">Payments ({payments?.length || 0})</h2>
+              <div className="card p-6">
                 {payments && payments.length > 0 ? (
                   <div className="space-y-4">
                     {payments.map((payment) => (
-                      <div key={payment.id} className="border-b pb-4 last:border-0">
-                        <p className="font-medium">₹{payment.amount}</p>
-                        <p className="text-sm text-gray-600">
+                      <div key={payment.id} className="border-b border-border pb-4 last:border-0">
+                        <p className="font-medium text-text-primary">₹{payment.amount}</p>
+                        <p className="text-sm text-text-muted">
                           Status: <span className="capitalize">{payment.status}</span>
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-text-muted">
                           {format(new Date(payment.created_at), 'MMM dd, yyyy')}
                         </p>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-500">No payments</p>
+                  <p className="text-text-muted">No payments</p>
                 )}
               </div>
             </div>

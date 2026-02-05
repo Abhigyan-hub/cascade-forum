@@ -44,12 +44,12 @@ export function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-background">
+      <nav className="bg-[#1A1A1E] border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
-              <Link to="/" className="flex items-center px-2 py-2 text-xl font-bold text-blue-600">
+              <Link to="/" className="flex items-center px-2 py-2 text-xl font-bold bg-gradient-purple bg-clip-text text-transparent">
                 Cascade Forum
               </Link>
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -57,8 +57,8 @@ export function Layout({ children }: LayoutProps) {
                   <Link
                     key={link.to}
                     to={link.to}
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-blue-600"
-                    activeProps={{ className: 'text-blue-600 border-b-2 border-blue-600' }}
+                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-text-muted hover:text-primary transition-colors"
+                    activeProps={{ className: 'text-primary border-b-2 border-primary' }}
                   >
                     {link.label}
                   </Link>
@@ -66,14 +66,14 @@ export function Layout({ children }: LayoutProps) {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-sm text-gray-700">
+              <div className="flex items-center space-x-2 text-sm text-text-muted">
                 <User className="w-4 h-4" />
                 <span>{user?.full_name}</span>
-                <span className="text-gray-400">({user?.role})</span>
+                <span className="text-text-muted/70">({user?.role})</span>
               </div>
               <button
                 onClick={handleLogout}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-red-600"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-text-muted hover:text-accent-error transition-colors"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout

@@ -8,7 +8,48 @@
   font-weight: 400;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
+@layer base {
+  body {
+    @apply bg-background text-text-primary;
+    margin: 0;
+    min-height: 100vh;
+  }
+  
+  * {
+    @apply border-border;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-purple text-white px-4 py-2 rounded-md font-semibold hover:opacity-90 transition-opacity;
+  }
+  
+  .btn-accent {
+    @apply bg-accent text-background px-4 py-2 rounded-md font-semibold hover:opacity-90 transition-opacity;
+  }
+  
+  .btn-danger {
+    @apply bg-accent-error text-white px-4 py-2 rounded-md font-semibold hover:opacity-90 transition-opacity;
+  }
+  
+  .card {
+    @apply bg-[#1A1A1E] border border-border rounded-lg shadow-lg;
+  }
+  
+  .input {
+    @apply bg-[#1A1A1E] border border-border text-text-primary rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  }
+  
+  .status-pending {
+    @apply bg-status-pending/20 text-status-pending border border-status-pending/30;
+  }
+  
+  .status-accepted {
+    @apply bg-status-accepted/20 text-status-accepted border border-status-accepted/30;
+  }
+  
+  .status-rejected {
+    @apply bg-status-rejected/20 text-status-rejected border border-status-rejected/30;
+  }
 }

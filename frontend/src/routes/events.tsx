@@ -24,10 +24,10 @@ function EventsPage() {
     <ProtectedRoute>
       <Layout>
         <div className="px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">Events</h1>
+          <h1 className="text-3xl font-bold text-text-primary mb-6">Events</h1>
           
           {isLoading ? (
-            <div className="text-center py-12">Loading events...</div>
+            <div className="text-center py-12 text-text-muted">Loading events...</div>
           ) : events && events.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {events.map((event) => (
@@ -35,7 +35,7 @@ function EventsPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 text-gray-500">No events available</div>
+            <div className="text-center py-12 text-text-muted">No events available</div>
           )}
         </div>
       </Layout>
@@ -45,22 +45,22 @@ function EventsPage() {
 
 function EventCard({ event }: { event: Event }) {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-      <h2 className="text-xl font-semibold text-gray-900 mb-2">{event.title}</h2>
-      <p className="text-gray-600 text-sm mb-4 line-clamp-3">{event.description}</p>
+    <div className="card p-6 hover:border-primary/50 transition-colors">
+      <h2 className="text-xl font-semibold text-text-primary mb-2">{event.title}</h2>
+      <p className="text-text-muted text-sm mb-4 line-clamp-3">{event.description}</p>
       
       <div className="space-y-2 mb-4">
-        <div className="flex items-center text-sm text-gray-600">
+        <div className="flex items-center text-sm text-text-muted">
           <Calendar className="w-4 h-4 mr-2" />
           {format(new Date(event.event_date), 'MMM dd, yyyy HH:mm')}
         </div>
         {event.is_paid && (
-          <div className="flex items-center text-sm text-gray-600">
+          <div className="flex items-center text-sm text-text-muted">
             <DollarSign className="w-4 h-4 mr-2" />
             ₹{event.price}
           </div>
         )}
-        <div className="flex items-center text-sm text-gray-600">
+        <div className="flex items-center text-sm text-text-muted">
           <Users className="w-4 h-4 mr-2" />
           {event.current_participants} / {event.max_participants || '∞'} participants
         </div>
@@ -68,7 +68,7 @@ function EventCard({ event }: { event: Event }) {
       
       <a
         href={`/events/${event.id}`}
-        className="block w-full text-center py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+        className="block w-full text-center py-2 px-4 btn-primary"
       >
         View Details
       </a>

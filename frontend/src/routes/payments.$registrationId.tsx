@@ -69,7 +69,7 @@ function PaymentPage() {
         email: 'user@example.com',
       },
       theme: {
-        color: '#2563eb',
+        color: '#7B2CBF',
       },
     }
 
@@ -82,25 +82,25 @@ function PaymentPage() {
       <Layout>
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Complete Payment</h1>
+            <h1 className="text-3xl font-bold text-text-primary mb-6">Complete Payment</h1>
 
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="card p-6">
               {orderData ? (
                 <div className="space-y-4">
                   <div>
-                    <span className="text-sm text-gray-600">Amount:</span>
-                    <p className="text-2xl font-bold text-gray-900">₹{orderData.amount}</p>
+                    <span className="text-sm text-text-muted">Amount:</span>
+                    <p className="text-2xl font-bold text-text-primary">₹{orderData.amount}</p>
                   </div>
                   <button
                     onClick={handlePayment}
                     disabled={!razorpayLoaded || verifyMutation.isPending}
-                    className="w-full py-3 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                    className="w-full py-3 px-4 btn-accent disabled:opacity-50"
                   >
                     {!razorpayLoaded ? 'Loading payment gateway...' : 'Pay with Razorpay'}
                   </button>
                 </div>
               ) : (
-                <div className="text-center py-12">Loading payment details...</div>
+                <div className="text-center py-12 text-text-muted">Loading payment details...</div>
               )}
             </div>
           </div>

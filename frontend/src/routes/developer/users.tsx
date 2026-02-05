@@ -24,56 +24,56 @@ function DeveloperUsersPage() {
     <ProtectedRoute requiredRole="developer">
       <Layout>
         <div className="px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">All Users</h1>
+          <h1 className="text-3xl font-bold text-text-primary mb-6">All Users</h1>
 
           {isLoading ? (
-            <div className="text-center py-12">Loading...</div>
+            <div className="text-center py-12 text-text-muted">Loading...</div>
           ) : users && users.length > 0 ? (
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+            <div className="card overflow-hidden">
+              <table className="min-w-full divide-y divide-border">
+                <thead className="bg-[#1A1A1E]">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Created</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase">Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase">Role</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase">Created</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-text-muted uppercase">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="divide-y divide-border">
                   {users.map((user) => (
-                    <tr key={user.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <tr key={user.id} className="hover:bg-[#1A1A1E]/50 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-primary">
                         {user.full_name}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-muted">
                         {user.email}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                          user.role === 'developer' ? 'bg-purple-100 text-purple-800' :
-                          user.role === 'admin' ? 'bg-blue-100 text-blue-800' :
-                          'bg-gray-100 text-gray-800'
+                          user.role === 'developer' ? 'bg-primary/20 text-primary border border-primary/30' :
+                          user.role === 'admin' ? 'bg-primary-light/20 text-primary-light border border-primary-light/30' :
+                          'bg-[#2A2A2E] text-text-muted'
                         }`}>
                           {user.role}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                          user.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          user.is_active ? 'status-accepted' : 'status-rejected'
                         }`}>
                           {user.is_active ? 'Active' : 'Inactive'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-muted">
                         {format(new Date(user.created_at), 'MMM dd, yyyy')}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
                         <Link
                           to="/developer/users/$userId"
                           params={{ userId: user.id }}
-                          className="text-blue-600 hover:text-blue-800"
+                          className="text-primary hover:text-primary-light transition-colors"
                         >
                           View Details
                         </Link>
@@ -84,7 +84,7 @@ function DeveloperUsersPage() {
               </table>
             </div>
           ) : (
-            <div className="text-center py-12 text-gray-500">No users found</div>
+            <div className="text-center py-12 text-text-muted">No users found</div>
           )}
         </div>
       </Layout>

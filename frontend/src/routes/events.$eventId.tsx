@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { Layout } from '@/components/Layout'
@@ -22,8 +22,22 @@ function EventDetailsPage() {
   const { data: event, isLoading } = useQuery<Event>({
     queryKey: ['event', eventId],
     queryFn: async () => {
-      const response = await api.get(`/events/${eventId}`)
-      return response.data
+      // Try public endpoint first, fallback to authenticated endpoint
+      try {
+        const response = await api.get(`/events/public/${eventId}`)
+        return response.data
+      } catch (error: any) {
+        // If public endpoint fails (404 or other), try authenticated endpoint
+        if (user) {
+          try {
+            const response = await api.get(`/events/${eventId}`)
+            return response.data
+          } catch (authError) {
+            throw error // Throw original error if auth also fails
+          }
+        }
+        throw error
+      }
     },
   })
 
@@ -86,46 +100,126 @@ function EventDetailsPage() {
     !existingRegistration &&
     new Date(event.registration_deadline) > new Date()
 
+  // For public viewing, show a simpler layout
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <nav className="bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between h-16">
+              <Link to="/" className="flex items-center text-xl font-bold text-blue-600">
+                Cascade Forum
+              </Link>
+              <div className="flex items-center space-x-4">
+                <Link
+                  to="/login"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                >
+                  Register
+                </Link>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+          {isLoading ? (
+            <div className="text-center py-12">Loading...</div>
+          ) : event ? (
+            <>
+              <h1 className="text-3xl font-bold text-text-primary mb-4">{event.title}</h1>
+              <div className="card p-6 mb-6">
+                <p className="text-text-primary mb-4">{event.description}</p>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <span className="text-sm text-text-muted">Event Date:</span>
+                    <p className="font-medium text-text-primary">{format(new Date(event.event_date), 'MMM dd, yyyy HH:mm')}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-text-muted">Registration Deadline:</span>
+                    <p className="font-medium text-text-primary">{format(new Date(event.registration_deadline), 'MMM dd, yyyy HH:mm')}</p>
+                  </div>
+                  {event.is_paid && (
+                    <div>
+                      <span className="text-sm text-text-muted">Price:</span>
+                      <p className="font-medium text-text-primary">₹{event.price}</p>
+                    </div>
+                  )}
+                  <div>
+                    <span className="text-sm text-text-muted">Participants:</span>
+                    <p className="font-medium text-text-primary">{event.current_participants} / {event.max_participants || '∞'}</p>
+                  </div>
+                </div>
+                <div className="bg-accent/20 border border-accent/30 rounded-md p-4">
+                  <p className="text-accent mb-2">
+                    <strong>Login required to register</strong>
+                  </p>
+                  <button
+                    onClick={() => navigate({ to: '/login' })}
+                    className="px-4 py-2 btn-primary"
+                  >
+                    Login to Register
+                  </button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12 text-text-muted">Event not found</div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <ProtectedRoute>
       <Layout>
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">{event.title}</h1>
+            <h1 className="text-3xl font-bold text-text-primary mb-4">{event.title}</h1>
             
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-              <p className="text-gray-700 mb-4">{event.description}</p>
+            <div className="card p-6 mb-6">
+              <p className="text-text-primary mb-4">{event.description}</p>
               
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <span className="text-sm text-gray-600">Event Date:</span>
-                  <p className="font-medium">{format(new Date(event.event_date), 'MMM dd, yyyy HH:mm')}</p>
+                  <span className="text-sm text-text-muted">Event Date:</span>
+                  <p className="font-medium text-text-primary">{format(new Date(event.event_date), 'MMM dd, yyyy HH:mm')}</p>
                 </div>
                 <div>
-                  <span className="text-sm text-gray-600">Registration Deadline:</span>
-                  <p className="font-medium">{format(new Date(event.registration_deadline), 'MMM dd, yyyy HH:mm')}</p>
+                  <span className="text-sm text-text-muted">Registration Deadline:</span>
+                  <p className="font-medium text-text-primary">{format(new Date(event.registration_deadline), 'MMM dd, yyyy HH:mm')}</p>
                 </div>
                 {event.is_paid && (
                   <div>
-                    <span className="text-sm text-gray-600">Price:</span>
-                    <p className="font-medium">₹{event.price}</p>
+                    <span className="text-sm text-text-muted">Price:</span>
+                    <p className="font-medium text-text-primary">₹{event.price}</p>
                   </div>
                 )}
                 <div>
-                  <span className="text-sm text-gray-600">Participants:</span>
-                  <p className="font-medium">{event.current_participants} / {event.max_participants || '∞'}</p>
+                  <span className="text-sm text-text-muted">Participants:</span>
+                  <p className="font-medium text-text-primary">{event.current_participants} / {event.max_participants || '∞'}</p>
                 </div>
               </div>
 
               {existingRegistration && (
-                <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-4">
-                  <p className="text-blue-800">
-                    <strong>Registration Status:</strong> {existingRegistration.status}
+                <div className={`rounded-md p-4 mb-4 ${
+                  existingRegistration.status === 'accepted' ? 'status-accepted' :
+                  existingRegistration.status === 'rejected' ? 'status-rejected' :
+                  'status-pending'
+                }`}>
+                  <p className="text-text-primary">
+                    <strong>Registration Status:</strong> <span className="capitalize">{existingRegistration.status}</span>
                   </p>
                   {existingRegistration.payment_status === 'pending' && event.is_paid && (
                     <a
                       href={`/payments/${existingRegistration.id}`}
-                      className="mt-2 inline-block text-blue-600 hover:text-blue-800"
+                      className="mt-2 inline-block text-accent hover:text-accent/80 transition-colors"
                     >
                       Complete Payment →
                     </a>
@@ -137,19 +231,19 @@ function EventDetailsPage() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {event.form_schema && (
                     <div className="space-y-4">
-                      <h3 className="text-lg font-semibold">Registration Form</h3>
+                      <h3 className="text-lg font-semibold text-text-primary">Registration Form</h3>
                       {Object.entries(event.form_schema).map(([key, field]: [string, any]) => (
                         <div key={key}>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-sm font-medium text-text-primary mb-1">
                             {field.label || key}
-                            {field.required && <span className="text-red-500">*</span>}
+                            {field.required && <span className="text-accent-error">*</span>}
                           </label>
                           {field.type === 'textarea' ? (
                             <textarea
                               required={field.required}
                               value={formData[key] || ''}
                               onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="input w-full"
                               rows={4}
                             />
                           ) : (
@@ -158,7 +252,7 @@ function EventDetailsPage() {
                               required={field.required}
                               value={formData[key] || ''}
                               onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="input w-full"
                             />
                           )}
                         </div>
@@ -167,7 +261,7 @@ function EventDetailsPage() {
                   )}
                   
                   {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                    <div className="bg-accent-error/20 border border-accent-error/30 text-accent-error px-4 py-3 rounded">
                       {error}
                     </div>
                   )}
@@ -175,7 +269,7 @@ function EventDetailsPage() {
                   <button
                     type="submit"
                     disabled={registerMutation.isPending}
-                    className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                    className="w-full btn-accent disabled:opacity-50"
                   >
                     {registerMutation.isPending ? 'Registering...' : 'Register for Event'}
                   </button>

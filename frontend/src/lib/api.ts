@@ -32,10 +32,15 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // Only redirect to login for 401 errors on protected routes
+    // Public routes (like /events/public) should not trigger redirect
+    if (error.response?.status === 401 && !error.config?.url?.includes('/public')) {
       localStorage.removeItem('access_token')
       localStorage.removeItem('user')
-      window.location.href = '/login'
+      // Only redirect if not already on home page
+      if (window.location.pathname !== '/') {
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   }
