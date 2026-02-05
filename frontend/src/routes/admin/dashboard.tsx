@@ -74,8 +74,8 @@ function AdminDashboard() {
                       <tr key={event.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
-                            to="/admin/events/$eventId"
-                            params={{ eventId: event.id }}
+                            to="/admin/events/$eventId/registrations"
+                            params={{ eventId: event.id as string }}
                             className="text-sm font-medium text-blue-600 hover:text-blue-800"
                           >
                             {event.title}
@@ -96,7 +96,7 @@ function AdminDashboard() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                           <Link
                             to="/admin/events/$eventId/registrations"
-                            params={{ eventId: event.id }}
+                            params={{ eventId: event.id as string }}
                             className="text-blue-600 hover:text-blue-800"
                           >
                             View Registrations
