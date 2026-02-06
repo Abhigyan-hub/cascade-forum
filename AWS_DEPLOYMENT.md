@@ -118,11 +118,11 @@ This guide covers deploying the Cascade Forum backend to AWS EC2 and database to
 cd C:\path\to\your\key
 
 # Set permissions (if needed)
-icacls your-key.pem /inheritance:r
-icacls your-key.pem /grant:r "$($env:USERNAME):(R)"
+icacls cascade-forum-key.pem /inheritance:r
+icacls cascade-forum-key.pem /grant:r "$($env:USERNAME):(R)"
 
 # Connect
-ssh -i your-key.pem ubuntu@YOUR_EC2_PUBLIC_IP
+ssh -i cascade-forum-key.pem ubuntu@16.171.149.246
 ```
 
 **Linux/Mac:**
@@ -212,7 +212,7 @@ RAZORPAY_KEY_SECRET=riGDIb77zsf6FLwcuNAhcKu1
 RAZORPAY_WEBHOOK_SECRET=your-webhook-secret
 
 # CORS (your frontend URL)
-CORS_ORIGINS=https://your-frontend.vercel.app,https://www.yourdomain.com
+CORS_ORIGINS=https://cascade-forum.vercel.app/
 
 # Environment
 ENVIRONMENT=production
@@ -250,7 +250,7 @@ python3
 
 ```bash
 # Connect to RDS and run schema
-psql -h cascade-forum-db.xxxxx.us-east-1.rds.amazonaws.com -U cascade_admin -d cascade_forum -f /opt/cascade-forum/database_schema.sql
+psql -h cascade-forum-db.cpmg4iky8jgg.eu-north-1.rds.amazonaws.com -U cascade_admin -d cascade_forum -f /opt/cascade-forum/cascade-forum/database_schema.sql
 
 # Enter password when prompted
 ```
@@ -275,10 +275,10 @@ After=network.target
 [Service]
 User=ubuntu
 Group=ubuntu
-WorkingDirectory=/opt/cascade-forum/backend
-Environment="PATH=/opt/cascade-forum/backend/venv/bin"
-EnvironmentFile=/opt/cascade-forum/backend/.env
-ExecStart=/opt/cascade-forum/backend/venv/bin/gunicorn -c gunicorn_config.py app.main:app
+WorkingDirectory=/opt/cascade-forum/cascade-forum/backend
+Environment="PATH=/opt/cascade-forum/cascade-forum/backend/venv/bin"
+EnvironmentFile=/opt/cascade-forum/cascade-forum/backend/.env
+ExecStart=/opt/cascade-forum/cascade-forum/backend/venv/bin/gunicorn -c gunicorn_config.py app.main:app
 Restart=always
 RestartSec=10
 

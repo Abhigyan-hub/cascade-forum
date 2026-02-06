@@ -23,7 +23,7 @@ class Payment(Base):
     status = Column(String(20), nullable=False, index=True)  # created, paid, failed, refunded
     webhook_received = Column(Boolean, default=False)
     webhook_verified = Column(Boolean, default=False)
-    metadata = Column(JSONB, nullable=True)
+    payment_metadata = Column("metadata", JSONB, nullable=True)  # "metadata" is reserved in SQLAlchemy, so we use payment_metadata
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     
