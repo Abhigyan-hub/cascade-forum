@@ -5,46 +5,74 @@
  */
 const EVENTS = [
   {
-    title: "Annual Tech Symposium",
-    datetime: "2026-04-12",
-    dateLabel: "April 12, 2026",
-    location: "Main Auditorium",
+    title: "TECH TRIATHLON",
+    datetime: "07-04-2026",
+    dateLabel: "April 07, 2026",
+    location: "C-008",
     description:
-      "Talks on AI, web platforms, and open source, plus a student project showcase. Network with faculty and industry guests, and join breakout sessions on careers in tech.",
+      "The Tech Triathlon is a multi-round elimination competition testing aptitude, debugging, practical skills, and rapid-fire thinking to identify the most consistent and capable participant.",
     images: [
-      "assets/images/tech-symposium/slide-1.svg",
-      "assets/images/tech-symposium/slide-2.svg",
-      "assets/images/tech-symposium/slide-3.svg",
+      "assets/images/tech-tri/slide-1.png",
+      "assets/images/tech-tri/slide-2.png",
+      "assets/images//tech-tri/slide-3.png",
     ],
-    registerUrl: "paste form link here",
+    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdxOSFaTsfvWFj0fDpAcp-95g5zwL5nziZBF3QGiQWknXfFUQ/viewform",
   },
   {
-    title: "Spring Cultural Fest",
-    datetime: "2026-04-25",
-    dateLabel: "April 25–26, 2026",
-    location: "Quad & Arts Block",
+    title: "HYDRO MISSILE",
+    datetime: "07-04-2026",
+    dateLabel: "April 07, 2026",
+    location: "Near Football Turf",
     description:
-      "Music, dance, drama, and art stalls from student clubs. Food trucks and an evening open-mic. Open to all students and invited alumni.",
+      "The Hydro Missile event challenges participants to design and launch water-powered rockets using principles of pressure and aerodynamics to achieve maximum distance or accuracy while promoting innovation and teamwork.",
     images: [
-      "assets/images/cultural-fest/slide-1.svg",
-      "assets/images/cultural-fest/slide-2.svg",
-      "assets/images/cultural-fest/slide-3.svg",
+      "assets/images/Hydro/slide-1.png",
+      "assets/images/Hydro/slide-2.png",
+      "assets/images/Hydro/slide-3.png",
     ],
-    registerUrl: "paste form link here",
+    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfKA9ODJcRCotq5X1B6q9ZDL2tPVF1wxuhtzpcGuSBthtWSDg/viewform",
   },
   {
-    title: "Inter-Department Sports Day",
-    datetime: "2026-05-08",
-    dateLabel: "May 8, 2026",
-    location: "Sports Complex",
+    title: "ROBOSPHERE",
+    datetime: "08-04-2026",
+    dateLabel: "Arpil 8, 2026",
+    location: "B-Block 107A",
     description:
-      "Track and field, basketball, and volleyball brackets. Teams represent each department; spectators welcome. Prizes and closing ceremony in the evening.",
+      "This two-day event on IoT, robotics, and emerging technologies combines theoretical learning with hands-on project building, where participants create and present innovative solutions using IoT kits under expert guidance.",
     images: [
-      "assets/images/sports-day/slide-1.svg",
-      "assets/images/sports-day/slide-2.svg",
-      "assets/images/sports-day/slide-3.svg",
+      "assets/images/Robosphere/slide-1.png",
+      "assets/images/Robosphere/slide-2.png",
+      "assets/images/Robosphere/slide-3.png",
     ],
-    registerUrl: "paste form link here",
+    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeUwv7PkIpci9ymlrV89WL4hlY64gyQcc8Tfx1HdsifJ0x_CQ/viewform",
+  },
+  {
+    title: "ROBO RACE",
+    datetime: "08-04-2026",
+    dateLabel: "April 8, 2026",
+    location: "In front of C block",
+    description:
+      "The Robo Race event challenges participants to control robots through an obstacle track in the shortest time, testing precision, coordination, and control under supervised and safe conditions..",
+    images: [
+      "assets/images/RoboRace/slide-1.png",
+      "assets/images/RoboRace/slide-2.png",
+      "assets/images/RoboRace/slide-3.png",
+    ],
+    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSd7BM4tvXAJcgWfk3f4BADYgCl7jk3jaC2CtrUpjiL4jZUTRw/viewform",
+  },
+  {
+    title: "ROBO SOCCER",
+    datetime: "08-04-2026",
+    dateLabel: "April 8, 2026",
+    location: "In front of C block",
+    description:
+      "The Robo Soccer event is a competitive activity where participants control robots to play a mini soccer match, testing coordination, control, and teamwork under defined rules and safe supervision.",
+    images: [
+      "assets/images/RoboSoccer/slide-1.png",
+      "assets/images/RoboSoccer/slide-2.png",
+      "assets/images/RoboSoccer/slide-3.png",
+    ],
+    registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSchgc2wjdt-siFH5J6rPrmvi1mWre6qHi8sqbqNIHmWY1sIiw/viewform",
   },
 ];
 
@@ -167,7 +195,7 @@ function createEventCard(ev) {
   desc.textContent = ev.description;
 
   const register = document.createElement("a");
-  register.className = "btn-register";
+  register.className = "btn btn-yellow btn-register";
   register.href = ev.registerUrl;
   register.target = "_blank";
   register.rel = "noopener noreferrer";
@@ -184,6 +212,12 @@ function createEventCard(ev) {
   return article;
 }
 
+function initDummyLinks() {
+  document.querySelectorAll("a.js-dummy").forEach((a) => {
+    a.addEventListener("click", (e) => e.preventDefault());
+  });
+}
+
 function init() {
   const root = document.getElementById("events-root");
   if (!root) return;
@@ -193,6 +227,8 @@ function init() {
     root.appendChild(card);
     initSlideshow(card, ev.images, ev.title);
   });
+
+  initDummyLinks();
 }
 
 document.addEventListener("DOMContentLoaded", init);
