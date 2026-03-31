@@ -170,12 +170,10 @@ body {
 
 /* ——— Hero ——— */
 .hero-band {
-  background: linear-gradient(
-    135deg,
-    var(--hero-purple) 0%,
-    var(--hero-purple-mid) 50%,
-    #5b21b6 100%
-  );
+  background: linear-gradient(135deg,
+      var(--hero-purple) 0%,
+      var(--hero-purple-mid) 50%,
+      #5b21b6 100%);
   padding: 3rem 0 3.25rem;
   margin: 0;
 }
@@ -195,7 +193,7 @@ body {
 
 .hero-sub {
   margin: 0 0 1.75rem;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.85);
   font-weight: 400;
 }

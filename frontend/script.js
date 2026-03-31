@@ -231,4 +231,64 @@ function init() {
   initDummyLinks();
 }
 
-document.addEventListener("DOMContentLoaded", init);
+function initSplashScreen(onComplete) {
+  const splash = document.getElementById("splash-screen");
+  const prefersReducedMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Must match the CSS animation duration in `splash.css` (approx. 2-2.5s).
+  const DURATION_MS = prefersReducedMotion ? 250 : 2300;
+
+  // Inline script in `index.html` is responsible for setting:
+  // - localStorage.visited
+  // - splash-screen--active class
+  //
+  // This fallback ensures the splash still works if storage access fails early.
+  let shouldPlay = splash && splash.classList.contains("splash-screen--active");
+  if (!shouldPlay && splash) {
+    let hasVisited = false;
+    try {
+      hasVisited = localStorage.getItem("visited") === "true";
+    } catch (_) {
+      // If storage is blocked, we can't guarantee "first visit only".
+      // We'll still show the splash once for this load.
+      hasVisited = false;
+    }
+
+    if (hasVisited) {
+      splash.remove();
+      onComplete?.();
+      return;
+    }
+
+    try {
+      localStorage.setItem("visited", "true");
+    } catch (_) {
+      // Ignore storage write failures.
+    }
+
+    splash.classList.add("splash-screen--active");
+    void splash.offsetWidth; // Force style/layout so animations start reliably.
+    shouldPlay = true;
+  }
+
+  if (!shouldPlay) {
+    if (splash) splash.remove();
+    onComplete?.();
+    return;
+  }
+
+  const previousOverflow = document.documentElement.style.overflow;
+  document.documentElement.style.overflow = "hidden";
+
+  window.setTimeout(() => {
+    if (splash && splash.parentNode) splash.remove();
+    document.documentElement.style.overflow = previousOverflow;
+    onComplete?.();
+  }, DURATION_MS);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initSplashScreen(() => init());
+});

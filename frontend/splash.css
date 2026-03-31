@@ -1,0 +1,100 @@
+/* First-visit splash screen (Techfest-style intro) */
+
+:root {
+    --splash-duration: 2300ms;
+    --splash-bg: #000;
+}
+
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    background: radial-gradient(circle at 50% 40%,
+            rgba(124, 58, 237, 0.25) 0%,
+            rgba(0, 0, 0, 1) 60%),
+        var(--splash-bg);
+
+    /* Prevent user interaction while splash is active */
+    pointer-events: none;
+}
+
+.splash-screen--active {
+    display: flex;
+    pointer-events: auto;
+
+    /* Fade overlay out at the very end */
+    animation: splashOverlayFadeOut var(--splash-duration) ease-in-out forwards;
+}
+
+.splash-screen__logo {
+    width: min(280px, 46vw);
+    height: auto;
+    display: block;
+
+    /* Initial state (matches requirement) */
+    opacity: 0;
+    transform: scale(0.5);
+
+    /* Optional glow */
+    filter: drop-shadow(0 0 18px rgba(124, 58, 237, 0.65)) drop-shadow(0 0 6px rgba(251, 191, 36, 0.28));
+}
+
+.splash-screen--active .splash-screen__logo {
+    animation: splashLogoIntro var(--splash-duration) ease-in-out forwards;
+}
+
+@keyframes splashLogoIntro {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    25% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    55% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    /* Slight settle */
+    70% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes splashOverlayFadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .splash-screen--active {
+        animation: none;
+    }
+
+    .splash-screen--active .splash-screen__logo {
+        animation: none;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
