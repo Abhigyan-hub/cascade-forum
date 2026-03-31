@@ -8,7 +8,7 @@ const EVENTS = [
     title: "TECH TRIATHLON",
     datetime: "07-04-2026",
     dateLabel: "April 07, 2026",
-    location: "C-008",
+    location: "TBA",
     description:
       "The Tech Triathlon is a multi-round elimination competition testing aptitude, debugging, practical skills, and rapid-fire thinking to identify the most consistent and capable participant.",
     images: [
@@ -36,7 +36,7 @@ const EVENTS = [
     title: "ROBOSPHERE",
     datetime: "08-04-2026",
     dateLabel: "Arpil 8, 2026",
-    location: "B-Block 107A",
+    location: "TBA",
     description:
       "This two-day event on IoT, robotics, and emerging technologies combines theoretical learning with hands-on project building, where participants create and present innovative solutions using IoT kits under expert guidance.",
     images: [
